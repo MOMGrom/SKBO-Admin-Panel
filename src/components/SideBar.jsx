@@ -5,6 +5,11 @@ import img1 from "../data/SKBO-Logo.png"
 
 function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showDropDown, setShowDropDown] = useState(false)
+
+function dropDown() {
+  
+}
 
   function handleOnClickOpen() {
     setIsOpen(true);
@@ -26,7 +31,7 @@ function SideBar() {
           <div className={style.FCs}>Admin</div>
         </div>
         <div className={style.containerRout}>
-          <div>Редактирование <br /> объектов</div>
+          <div>Объекты</div>
           <div>Реклама</div>
         </div>
         <div className={style.closeBtContainer}>
