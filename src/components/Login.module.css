@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+
+.mainContainer {
+    margin: auto;
+    margin-top: 10%;
+    font-family: "Montserrat", sans-serif;
+    border-radius: 20px;
+    background-color: #1a1d25;
+    width: 25%;
+    height: 430px;
+}
+.title {
+    font-size: 2.8rem;
+    padding-top: 10%;
+    font-weight: 600;
+    color: #fff;
+}
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.inputContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.login {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.password {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.inputContainer input {
+    width: 100%;
+    font-size: 1.5rem;
+    padding: 10px;
+    color: #ffffff;
+    background-color: #1a1d25;
+    border: 2px solid #ffffff2e;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+} 
+
+.inputContaine input:focus {
+    font-family: "Montserrat", sans-serif;
+    outline: none;
+    font-size: 1.5rem;
+    background-color: #1a1d25;
+    color: #fff;
+    border: 2px solid #fff;
+}
+.inputContaine label {
+    font-size: 1.1rem;
+    padding-bottom: 5px;
+    font-family: "Montserrat", sans-serif;
+    color: #fff;
+}
+
+.loginBt {
+    font-size: 1.2rem;
+    width: 30%;
+    margin-top: 7%;
+    font-family: "Montserrat", sans-serif;
+    background-color: #ffcc00;
+    border: none;
+    color: #1A1D25;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0px 0px 5px rgba(255, 204, 0, 0); 
+    transition: background-color 0.3s ease, box-shadow 0.7s ease, color 0.7s ease;
+}
+
+.loginBt:hover {
+    background-color: #ffcc00;
+    color: #1A1D25;
+    box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8); 
+}
