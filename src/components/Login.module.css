@@ -84,8 +84,9 @@ label {
     transition: background-color 0.3s ease, box-shadow 0.7s ease, color 0.7s ease;
 }
 
-.loginBt:hover {
+.loginBt:hover, .loginBt:hover:visited {
     background-color: #ffcc00;
     color: #1A1D25;
     box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8); 
 }
+
