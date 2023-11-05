@@ -3,6 +3,7 @@ import style from "./Projects.module.css";
 import data from "../data/fakeData.json"
 import {RiEdit2Fill} from "react-icons/ri"
 import {RiDeleteBin5Fill} from "react-icons/ri"
+import NavBar from "./NavBar";
 
 function Projects() {
 
@@ -47,6 +48,7 @@ function Projects() {
     }
     return (
         <div className={style.main}>
+            <NavBar/>
             <div className={style.rightContainer}> 
                 {projects.map((p, index) => {
                     return ( 

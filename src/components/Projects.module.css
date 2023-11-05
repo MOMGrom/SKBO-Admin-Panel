@@ -30,38 +30,7 @@
 
 }
 
-.navBarContainer {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-right: 55%;
-    width: 45%;
-    align-items: center;
-    background-color: #1a1d2581;
-    color: #fff;
-    font-family: "Montserrat", sans-serif;
-    padding: 10px;
-    padding-bottom: 15px;
-    border-radius: 10px;
-    padding-left: 10%;
-    top: 0;
-}
 
-
-.objectLink {
-    margin-top: 6px;
-    transition: color 0.6s ease;
-}
-.advertisingLink {
-    margin-top: 6px;
-    transition: color 0.6s ease;
-}
-
-.objectLink:hover, .advertisingLink:hover {
-    color: #ffcc00;
-    cursor: pointer;
-}
 
 .mainFormContainer {
     margin-top: 7%;
