@@ -1,25 +1,16 @@
 import { useState } from "react";
 import style from "../components/Login.module.css"
 
-function Login() {
+
+function Login(props) {
 
     const [login, setLogin] = useState('')
     const [password, setPassword] = useState('')
 
-    function handleFormSubmit(event) {
+    async function handleFormSubmit(event) {
         event.preventDefault()
-
-        const adminData = {
-            login,
-            password,
-        }
-        console.log(adminData)
-
+        props.Auth(login, password);
     }
-
-
-
-
 
     return(
         <div className={style.mainContainer}>

@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./Projects.module.css";
 import data from "../data/fakeData.json"
 import {RiEdit2Fill} from "react-icons/ri"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import NavBar from "./NavBar";
 
-function Projects() {
+function Projects(props) {
+    const [projects, setProjects] = useState([]);
 
     const [titleObject, setTitleObject] = useState('')
     const [descriptionObject, setDescriptionObject] = useState('')
@@ -26,19 +27,9 @@ function Projects() {
         return img
     }
 
-    let projects = data;
-
     function handleFormSubmit(event) {
         event.preventDefault()
 
-        let objectData = {
-            titleObject,
-            descriptionObject,
-            img1,
-            img2,
-            img3,
-        }
-        console.log(objectData)
         setTitleObject("")
         setDescriptionObject("")
         setImg1("")
@@ -46,6 +37,9 @@ function Projects() {
         setImg3("")
         
     }
+
+    console.log(projects);
+
     return (
         <div className={style.main}>
             <NavBar/>
