@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import style from "./Projects.module.css";
-import data from "../data/fakeData.json"
 import {RiEdit2Fill} from "react-icons/ri"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import NavBar from "./NavBar";
@@ -30,13 +29,33 @@ function Projects(props) {
     function handleFormSubmit(event) {
         event.preventDefault()
 
+        if ((titleObject !== "")
+        && (descriptionObject !== "")
+        && (img1 !== "")
+        && (img2 !== "")
+        && (img3 !== "")) {
+        props.API.AddProject(titleObject, descriptionObject);
+        projects.push({
+            "id": projects.length,
+            "title": titleObject,
+            "description": descriptionObject
+        })
+
         setTitleObject("")
         setDescriptionObject("")
         setImg1("")
         setImg2("")
         setImg3("")
-        
+    } else { alert("Все поля должны быть заполнены!")}
     }
+
+    useEffect(() => {
+        async function get() {
+            let projects = await props.API.GetProjects();
+            setProjects(projects);
+        }
+        get();
+    }, [])
 
     console.log(projects);
 
@@ -46,7 +65,7 @@ function Projects(props) {
             <div className={style.rightContainer}> 
                 {projects.map((p, index) => {
                     return ( 
-                        <div className={style.objectList}>
+                        <div className={style.objectList} key={index}>
                         <div className={style.textObjectСontainer}>
                             <div className={style.titleObjectText}>{p.title}</div>
                             <div className={style.descriptionObjectText}>{p.description}</div>

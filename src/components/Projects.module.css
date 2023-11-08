@@ -251,13 +251,21 @@ padding-top: 5%;
     padding-right: 8px;
 }
 
+.btnContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+    padding-left: 1%;
+}
+
 .editBtn, .deleteBtn {
     background-color: #ffffff00;
     color: #fff;
     font-size: 1.5rem;
     border: 0px solid;
     cursor: pointer;
-    padding-top: 50%;
     transition: color 0.9s ease;
 }
 

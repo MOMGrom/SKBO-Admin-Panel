@@ -40,8 +40,26 @@ class ApiController {
         });
 
         console.log(response);
+        let projects = await response.json() 
+        console.log(projects);
+        return projects;
+    }
 
-        return await response.json();
+    async AddProject(title, description) {
+        let response = await fetch(this.API_URL + "projects", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: title,
+                description: description
+            })
+        });
+        response = await response.json;
+        return response;
     }
 }
 
