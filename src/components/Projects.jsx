@@ -49,6 +49,13 @@ function Projects(props) {
     } else { alert("Все поля должны быть заполнены!")}
     }
 
+    async function RemoveProject(index) {
+        let result = await props.API.RemoveProject(projects[index].id);
+        projects.splice(index, 1);
+        let new_state = [...projects]
+        setProjects(new_state);
+    }
+
     useEffect(() => {
         async function get() {
             let projects = await props.API.GetProjects();
@@ -64,6 +71,7 @@ function Projects(props) {
             <NavBar/>
             <div className={style.rightContainer}> 
                 {projects.map((p, index) => {
+                    console.log(index)
                     return ( 
                         <div className={style.objectList} key={index}>
                         <div className={style.textObjectСontainer}>
@@ -76,8 +84,8 @@ function Projects(props) {
                             <div className={style.img3Object}><img src={p.img3} alt="kk" /></div>
                         </div>
                         <div className={style.btnContainer}>
-                            <button className={style.editBtn}><RiEdit2Fill/></button>
-                            <button className={style.deleteBtn}><RiDeleteBin5Fill/></button></div>
+                                <button className={style.editBtn}><RiEdit2Fill /></button>
+                                <button className={style.deleteBtn} onClick={() => { RemoveProject(index) }}><RiDeleteBin5Fill /></button></div>
                         </div>
                     )
                 })}

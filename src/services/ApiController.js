@@ -39,9 +39,7 @@ class ApiController {
             },
         });
 
-        console.log(response);
         let projects = await response.json() 
-        console.log(projects);
         return projects;
     }
 
@@ -60,6 +58,10 @@ class ApiController {
         });
         response = await response.json;
         return response;
+    }
+
+    async RemoveProject() {
+
     }
 }
 
