@@ -49,6 +49,11 @@ function Projects(props) {
     } else { alert("Все поля должны быть заполнены!")}
     }
 
+    function UpdateProject(index) {
+        setTitleObject(projects[index].title);
+        setDescriptionObject(projects[index].description);
+    }
+
     async function RemoveProject(index) {
         let result = await props.API.RemoveProject(projects[index].id);
         projects.splice(index, 1);
@@ -83,8 +88,8 @@ function Projects(props) {
                             <div className={style.img2Object}><img src={p.img2} alt="kk" /></div>
                             <div className={style.img3Object}><img src={p.img3} alt="kk" /></div>
                         </div>
-                        <div className={style.btnContainer}>
-                                <button className={style.editBtn}><RiEdit2Fill /></button>
+                            <div className={style.btnContainer}>
+                                <button className={style.editBtn} onClick={() => { UpdateProject(index) }}><RiEdit2Fill /></button>
                                 <button className={style.deleteBtn} onClick={() => { RemoveProject(index) }}><RiDeleteBin5Fill /></button></div>
                         </div>
                     )
