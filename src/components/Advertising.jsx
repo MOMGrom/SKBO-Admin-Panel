@@ -4,10 +4,21 @@ import NavBar from "./NavBar";
 
 function Advertising() {
     
-
     const [numFiles, setNumFiles] = useState(0)
     const [img, setImg] = useState("")
     const [title, setTitle] = useState("")
+
+    const [unitList, setUnitList] = useState([]);
+
+    function addUnit() {
+        let newList = [...unitList];
+        newList.push(
+            {
+
+            }
+        )
+        setUnitList(newList);
+    }
 
 function numPlus() {
     if (numFiles <= 2) {
@@ -47,7 +58,6 @@ return(
         <NavBar/>
         <div className={style.main}>
             <div className={style.leftContainer}>
-                
                 <div className={style.editSettingsContainer}>
                     <form onSubmit={handleFormSubmit}>
                         <div className={style.inputTitleContainer}>
