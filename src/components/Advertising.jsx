@@ -88,12 +88,9 @@ return(
                         </form>
                     </div>
                     
-                <div className={style.advertisingList}>
-
-                </div>
             </div>
             <div className={style.rightContainer}>
-                <div className={style.webCotainer}><iframe src="https://skbo-group.ru" width="100%" height="930"></iframe></div>
+                <div className={style.webCotainer}><iframe src="https://skbo-group.ru" width="100%" height="730"></iframe></div>
             </div>
         </div>
     </div>
