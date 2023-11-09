@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import style from "./Projects.module.css";
 import {RiEdit2Fill} from "react-icons/ri"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import NavBar from "./NavBar";
+import image1 from "../data/ska3.jpg"
 
 function Projects(props) {
     const [projects, setProjects] = useState([]);
@@ -12,6 +13,8 @@ function Projects(props) {
     const [img1, setImg1] = useState('')
     const [img2, setImg2] = useState('')
     const [img3, setImg3] = useState('')
+
+    const handleSubmit = useCallback(CreateProject);
 
     function imgName(img) {
         let res = [];
@@ -26,7 +29,7 @@ function Projects(props) {
         return img
     }
 
-    function handleFormSubmit(event) {
+    function CreateProject(event) {
         event.preventDefault()
 
         if ((titleObject !== "")
@@ -49,9 +52,13 @@ function Projects(props) {
     } else { alert("Все поля должны быть заполнены!")}
     }
 
-    function UpdateProject(index) {
+    function Edit_Click(index) {
         setTitleObject(projects[index].title);
         setDescriptionObject(projects[index].description);
+    }
+
+    function UpdateProject(index) {
+
     }
 
     async function RemoveProject(index) {
@@ -69,8 +76,6 @@ function Projects(props) {
         get();
     }, [])
 
-    console.log(projects);
-
     return (
         <div className={style.main}>
             <NavBar/>
@@ -84,19 +89,19 @@ function Projects(props) {
                             <div className={style.descriptionObjectText}>{p.description}</div>
                         </div>
                         <div className={style.imgObjectContainer}>
-                            <div className={style.img1Object}><img src={p.img1} alt="kk" /></div>
-                            <div className={style.img2Object}><img src={p.img2} alt="kk" /></div>
-                            <div className={style.img3Object}><img src={p.img3} alt="kk" /></div>
+                            <div className={style.img1Object}><img src={image1} alt="img1" width={200} height={100} /></div>
+                            <div className={style.img2Object}><img src={image1} alt="img2" width={200} height={100}/></div>
+                            <div className={style.img3Object}><img src={image1} alt="img3" width={200} height={100}/></div>
                         </div>
                             <div className={style.btnContainer}>
-                                <button className={style.editBtn} onClick={() => { UpdateProject(index) }}><RiEdit2Fill /></button>
+                                <button className={style.editBtn} onClick={() => { Edit_Click(index) }}><RiEdit2Fill /></button>
                                 <button className={style.deleteBtn} onClick={() => { RemoveProject(index) }}><RiDeleteBin5Fill /></button></div>
                         </div>
                     )
                 })}
             </div>
             <div className={style.mainFormContainer}>
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleSubmit}>
             
                 
                     <div className={style.inputTitleContainer}>
@@ -114,8 +119,6 @@ function Projects(props) {
                         value={descriptionObject}
                         onChange={(event) => setDescriptionObject(event.target.value)}></textarea>               
                     </div>
-                
-                
                     <h3 className={style.titleImgInputs}>Выберите 3 фотографии:</h3>
                     <div className={style.imgInputs}>
                         <div className={style.img1Input}>
@@ -151,8 +154,7 @@ function Projects(props) {
                     </div>
                     <button className={style.addBt} type="submit">Сохранить</button>
                     </form>
-            </div>
-        
+            </div>  
         </div>
     )
 }
