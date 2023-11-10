@@ -1,5 +1,6 @@
 
 .main {
+    font-family: "Montserrat", sans-serif;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -8,128 +9,14 @@
 .leftContainer {
     width: 47%;
     margin-top: 7%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
 }
 
-.editSettingsContainer {
-    height: 40vw;
-    width: 70%;
-}
-
-
-.inputTitleContainer input {
-    font-family: "Montserrat", sans-serif;
-    width: 90%;
-    font-size: 1.5rem;
-    padding: 10px;
-    color: #ffffff;
-    background-color: #1a1d256a;
-    border: 2px solid #ffffff2e;
-    border-radius: 5px;
-    transition: border-color 0.8s ease;
-} 
-.inputTitleContainer input:focus {
-    font-family: "Montserrat", sans-serif;
-    outline: none;
-    font-size: 1.5rem;
-    background-color: #1a1d256a;
-    color: #fff;
-    border: 2px solid #fff;
-}
-
-p {
-    font-size: 1.5rem;
-    font-weight: 500;
-    font-family: "Montserrat", sans-serif;
-    color: #fff;
-    }
-
-.advertisingList {
-    width: 50%;
+.inputContainer {
     display: flex;
     flex-direction: column;
-    justify-content: start;
-}
-.inputNumberContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: baseline;
-}
-
-.inputNumberContainer button {
-    width: 15%;
-    padding: auto;
-    font-size: 1.5rem;
-    font-family: "Montserrat", sans-serif;
-    background-color: #ffcc00;
-    border: none;
-    color: #1A1D25;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0px 0px 5px rgba(255, 204, 0, 0); 
-    border-radius: 10px;
-    transition: background-color 0.3s ease, box-shadow 0.9s ease, color 0.9s ease;
-}
-
-.inputNumberContainer button:hover {
-    background-color: #ffcc00;
-    color: #1A1D25;
-    box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8); 
-}
-
-input[type=number] {
-    border-radius: 10px;
-    margin-bottom: 4%;
-    font-family: "Montserrat", sans-serif;
-    text-align: center;
-    width: 30%;
-    margin-left: 3%;
-    margin-right: 3%;
-    font-size: 1.5rem;
-    padding: 10px;
-    color: #ffffff;
-    background-color: #1a1d256a;
-    border: 2px solid #ffffff2e;
-    transition: border-color 0.8s ease;
-}
-
-input[type=number]:focus {
-    font-family: "Montserrat", sans-serif;
-    outline: none;
-    font-size: 1.5rem;
-    background-color: #1a1d256a;
-    color: #fff;
-    border: 2px solid #fff;
-}
-
-input[type="number"] {
-	-moz-appearance: textfield;
-	-webkit-appearance: textfield;
-	appearance: textfield;
-}
- 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-	display: none;
-}
-.imgInputs {
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    gap: 30px;
+    justify-content: center;
 }
-.imgTitle {
-    color: #fff;
-    font-family: "Montserrat", sans-serif;
-    padding-top: 10px;
-
-}
-
 
 input[type=file] {
     outline: 0;
@@ -139,20 +26,23 @@ input[type=file] {
 }
 
 .label {
-    margin-bottom: 10%;
-    width: 120px;
-    height: 40px;
+    max-width: 350px;
+    width: 350px;
+    padding: auto;
+    padding-top: 1.8rem;
+    margin-bottom: 5%;
     border: 2px dashed grey;
     border-radius: 5px;
     display: block;
-    padding: 1.2em;
     transition: border 300ms ease;
     cursor: pointer;
-    text-align: center
+    text-align: center;
+    font-size: 1.2rem;
 }
 
 
 .label .title {
+    text-align: center;
     color: grey;
     transition: color 0.5s ease;
 }
@@ -165,40 +55,45 @@ input[type=file] {
     color: #fff;
 }
 
-.titleImgInputs {
-    font-family: "Montserrat", sans-serif;
-    font-size: 1.5rem;
-    font-weight: 550;
+
+.imgsContainer {
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.imgsContainer img {
+width: 60%;
+height: 15%;
+}
+
+.deleteBtn {
+    background-color: #ffffff00;
     color: #fff;
-}
-
-
-.addBt {
-    margin: auto;
-    font-size: 1.1rem;
-    width: 32%;
-    margin-top: 5%;
-    font-family: "Montserrat", sans-serif;
-    background-color: #ffcc00;
-    border: none;
-    color: #1A1D25;
-    padding: 10px 20px;
-    border-radius: 5px;
+    font-size: 1.5rem;
+    border: 0px solid;
     cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0px 0px 5px rgba(255, 204, 0, 0); 
-    transition: background-color 0.3s ease, box-shadow 0.9s ease, color 0.9s ease;
+    transition: color 0.9s ease;
 }
-
-.addBt:hover {
-    background-color: #ffcc00;
-    color: #1A1D25;
-    box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8); 
+.deleteBtn:hover {
+    color: #ba0303
 }
-
 .rightContainer {
+    display: flex;
+    flex-direction: column;
     margin-top: 7%;
     width: 83%;
+
+}
+
+.number {
+    color: #fff;
+    font-family: "Montserrat", sans-serif;
+font-weight: 600;
+font-size: 1.5rem;
 }
 
 

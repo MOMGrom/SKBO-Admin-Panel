@@ -1,36 +1,27 @@
 import { useState } from "react";
 import style from "./Advertising.module.css"
 import NavBar from "./NavBar";
+import {RiDeleteBin5Fill} from "react-icons/ri"
 
 function Advertising() {
-    
-    const [numFiles, setNumFiles] = useState(0)
-    const [img, setImg] = useState("")
-    const [title, setTitle] = useState("")
 
-    const [unitList, setUnitList] = useState([]);
 
-    function addUnit() {
-        let newList = [...unitList];
-        newList.push(
-            {
+    const [loadImg, setLoadImg] = useState([])
 
-            }
-        )
-        setUnitList(newList);
+    function handleChangeFile(event) {
+        const newLoadImg = [...loadImg]
+        newLoadImg.push(URL.createObjectURL(event.target.files[0]))
+        setLoadImg(newLoadImg)
+
     }
 
-function numPlus() {
-    if (numFiles <= 2) {
-    setNumFiles(numFiles + 1)
-    } else { alert("Максимум 3 значения")}
-} 
+function deleteImg(index) {
+loadImg.splice(index, 1)
+let new_state = [...loadImg]
+setLoadImg(new_state)
 
-function numMinus() {
-    if (numFiles > 0) {
-        setNumFiles(numFiles - 1)
-        } 
-    } 
+
+}
     function imgName(img) {
         let res = [];
         for (let char of img) {
@@ -44,63 +35,30 @@ function numMinus() {
         return img
     }
 
-    const handleNumberChange = (event) => {
-        const valueNum = parseInt(event.target.value)
-            setNumFiles(valueNum)
-        
-    }
-
-    function handleFormSubmit(event) {
-        event.preventDefault()
-    }
 return(
     <div className={style.mainContainer}>
         <NavBar/>
         <div className={style.main}>
-            <div className={style.leftContainer}>
-                <div className={style.editSettingsContainer}>
-                    <form onSubmit={handleFormSubmit}>
-                        <div className={style.inputTitleContainer}>
-                            <p>Название рекламы:</p>
-                            <input 
-                                type="text"
-                                placeholder="Название, дата проведения"
-                                value={title}
-                                onChange={(event) => setTitle(event.target.value)}
-                            />
-                        </div>
-                        <p>Количество рекламных блоков:</p>
-                        <div className={style.inputNumberContainer}>
-                        <button className={style.minusBtn} onClick={numMinus}>-</button>
-                        <input type="number" 
-                                min={0} max={3} 
-                                value={numFiles} 
-                                onChange={handleNumberChange} /> <br />
-                        <button className={style.plusBtn} onClick={numPlus}>+</button>
-                        </div>
-                        {[...Array(numFiles)].map((_, index) => (
-                        <div className={style.imgInputs}>
-                            <div className={style.img1Input}>
-                                <label className={style.label}>
-                                    <span className={style.title}>Добавить фото</span>
-                                    <input 
-                                    type="file"
-                                    value={img}
-                                    onChange={(event) => setImg(event.target.value)}
-                                    />
-                                    </label>
-                        </div>
-                        
-                        <div className={style.imgTitle}>{imgName(img)}</div>
-                        </div>
-                        ))}
-                        <button className={style.addBt}>Сохранить</button>
-                        </form>
+        <div className={style.leftContainer}>
+            <div className={style.inputContainer}>
+                <div className={style.imgInput}></div>
+                    <label className={style.label}>
+                        <span className={style.title}>Добавить баннер</span>
+                        <input 
+                        type="file"
+                        onChange={handleChangeFile} />
+                    </label>
+                {loadImg.map((img, index) => (
+                    <div className={style.imgsContainer}>
+                        <div className={style.number}>{index +1 }</div>
+                        <img src={img} alt="img"/>
+                        <button onClick={() => deleteImg(index)} className={style.deleteBtn}><RiDeleteBin5Fill /></button>
                     </div>
-                    
+                ))}
+            </div>
             </div>
             <div className={style.rightContainer}>
-                <div className={style.webCotainer}><iframe src="https://skbo-group.ru" width="100%" height="730"></iframe></div>
+                <div className={style.webCotainer}><iframe src="http://localhost:3001" width="100%" height="730"></iframe></div>
             </div>
         </div>
     </div>
