@@ -132,6 +132,29 @@ padding-top: 5%;
     box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8); 
 }
 
+.delBt {
+    margin-left: 3%;
+    font-size: 1.2rem;
+    width: 30%;
+    margin-top: 2%;
+    font-family: "Montserrat", sans-serif;
+    background-color: rgb(234, 65, 27);
+    border: none;
+    color: #1A1D25;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0px 0px 5px rgba(255, 204, 0, 0);
+    transition: background-color 0.3s ease, box-shadow 0.9s ease, color 0.9s ease;
+}
+
+    .delBt:hover {
+        background-color: rgb(234, 65, 27);
+        color: #1A1D25;
+        box-shadow: 0px 0px 10px rgba(234, 65, 27, 0.8);
+    }
+
 
 .imgInputs{
     display: flex;

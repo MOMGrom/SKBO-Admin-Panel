@@ -14,7 +14,8 @@ function Projects(props) {
     const [img2, setImg2] = useState('')
     const [img3, setImg3] = useState('')
 
-    const handleSubmit = useCallback(CreateProject);
+    const [editIndex, setEditIndex] = useState(null);
+    const [mode, setMode] = useState("create");
 
     function imgName(img) {
         let res = [];
@@ -29,40 +30,85 @@ function Projects(props) {
         return img
     }
 
+    function Buttons() {
+
+        if (mode === "create") {
+            return (
+                <button className={style.addBt} type="submit">Сохранить</button>
+            )
+        } else {
+            return (
+                <>
+                    <button className={style.addBt} onClick={approveChange}>Изменить</button>
+                    <button className={style.delBt} onClick={abortChange}>Отменить</button>
+                </>
+            )
+        }
+            
+    }
+
     function CreateProject(event) {
         event.preventDefault()
 
-        if ((titleObject !== "")
-        && (descriptionObject !== "")
-        && (img1 !== "")
-        && (img2 !== "")
-        && (img3 !== "")) {
-        props.API.AddProject(titleObject, descriptionObject);
-        projects.push({
-            "id": projects.length,
-            "title": titleObject,
-            "description": descriptionObject
-        })
+        if ((titleObject !== "") && (descriptionObject !== "") && (img1 !== "") && (img2 !== "") && (img3 !== ""))
+        {
+            props.API.AddProject(titleObject, descriptionObject);
+            projects.push(
+                {
+                    "id": projects.length,
+                    "title": titleObject,
+                    "description": descriptionObject
+                }
+            );
 
-        setTitleObject("")
-        setDescriptionObject("")
-        setImg1("")
-        setImg2("")
-        setImg3("")
-    } else { alert("Все поля должны быть заполнены!")}
+            setTitleObject("");
+            setDescriptionObject("");
+            setImg1("");
+            setImg2("");
+            setImg3("");
+
+        } else
+        {
+            alert("Все поля должны быть заполнены!");
+        }
     }
 
     function Edit_Click(index) {
+
         setTitleObject(projects[index].title);
         setDescriptionObject(projects[index].description);
+
+        setMode("edit");
+        setEditIndex(index);
     }
 
-    function UpdateProject(index) {
+    function approveChange() {
+        projects[editIndex].title = titleObject;
+        projects[editIndex].description = descriptionObject;
 
+        setTitleObject("");
+        setDescriptionObject("")
+
+        setMode("create");
+        setEditIndex(null);
     }
 
-    async function RemoveProject(index) {
-        let result = await props.API.RemoveProject(projects[index].id);
+    function abortChange() {
+        setTitleObject("");
+        setDescriptionObject("")
+
+        setEditIndex(null);
+        setMode("create");
+    }
+
+    function RemoveProject(index) {
+        setMode("create");
+        setEditIndex(null);
+
+        setTitleObject("");
+        setDescriptionObject("")
+
+        props.API.RemoveProject(projects[index].id);
         projects.splice(index, 1);
         let new_state = [...projects]
         setProjects(new_state);
@@ -81,7 +127,6 @@ function Projects(props) {
             <NavBar/>
             <div className={style.rightContainer}> 
                 {projects.map((p, index) => {
-                    console.log(index)
                     return ( 
                         <div className={style.objectList} key={index}>
                         <div className={style.textObjectСontainer}>
@@ -101,9 +146,8 @@ function Projects(props) {
                 })}
             </div>
             <div className={style.mainFormContainer}>
-        <form onSubmit={handleSubmit}>
+                <form onSubmit={CreateProject}>
             
-                
                     <div className={style.inputTitleContainer}>
                         <label>Название объекта:</label>
                         <input 
@@ -152,8 +196,8 @@ function Projects(props) {
                             <div className={style.imgTitle}>{imgName(img3)}</div>
                         </div>
                     </div>
-                    <button className={style.addBt} type="submit">Сохранить</button>
-                    </form>
+                    <Buttons></Buttons>
+                </form>
             </div>  
         </div>
     )
