@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate} from 'react-router-dom';
 import './App.css';
 import Login from './components/Login';
 import Projects from './components/Projects';
@@ -10,36 +10,34 @@ import ApiController from './services/ApiController';
 import { useEffect } from 'react';
 
 function App() {
-    const [API, setAPI] = useState(new ApiController("https://localhost:7121/api/"));
-    const [isLogin, setIsLogin] = useState(false);
+
+    const [API, setAPI] = useState(() => {
+        let result = JSON.parse(sessionStorage.getItem("API"));
+        if (!result) {
+            return new ApiController("https://localhost:7121/api/");
+        } else {
+            console.log(result);
+            return new ApiController(result.API_URL, result.AccessToken, result.isLogin);
+        }
+    });
 
     async function Auth(login, password) {
         await API.Login(login, password);
-        setIsLogin(API.isLogin);
+        sessionStorage.setItem("API", JSON.stringify(API));
+
+        let new_state = { ...API };
+
+        setAPI(new_state);
     }
 
-    // useEffect(()=>{
-    //     setAPI(sessionStorage.getItem("API"));
-
-    //     if (API === null) {
-    //         setAPI(new ApiController("https://localhost:7121/api/"));
-    //         console.log(API);
-    //         sessionStorage.setItem("API", API);
-    //     } else {
-    //         setIsLogin(API.isLogin);
-    //     }
-    // }, [API]);
-
-    if (isLogin) {
+    if (API.isLogin) {
         return (
             <BrowserRouter>
                 <div className="App">
                     <Routes>
-                        <Route path='/'>
-                            <Route path='projects' element={<Projects API={API}/>} />
-                            <Route path='advertising' element={<Advertising API={API}/>} />
-                            <Route path="change_password" element={<ChangePassword API={API}/>} />
-                        </Route>
+                        <Route path='projects' element={<Projects API={API}/>} />
+                        <Route path='advertising' element={<Advertising API={API}/>} />
+                        <Route path="change_password" element={<ChangePassword API={API} />} />
                     </Routes>
                 </div>
             </BrowserRouter>

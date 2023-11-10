@@ -118,6 +118,7 @@ function Projects(props) {
         async function get() {
             let projects = await props.API.GetProjects();
             setProjects(projects);
+            console.log("exec")
         }
         get();
     }, [])

@@ -4,9 +4,10 @@ class ApiController {
     AccessToken = "";
     isLogin = false;
 
-    constructor(url, token) {
+    constructor(url, token, isLogin) {
         this.API_URL = url;
         this.AccessToken = token;
+        this.isLogin = isLogin;
     }
 
     async Login(login, password) {
