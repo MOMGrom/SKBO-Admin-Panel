@@ -61,8 +61,73 @@ class ApiController {
         return response;
     }
 
-    async RemoveProject() {
+    async UpdateProject(project) {
+        let response = await fetch(this.API_URL + "projects/" + project.id, {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(project)
+        });
 
+        return response;
+    }
+
+    async RemoveProject(project) {
+        let response = await fetch(this.API_URL + "projects/" + project.id, {
+            method: "DELETE",
+            mode: "cors",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            }
+        });
+
+        return response;
+    }
+
+    async GetAdvert() {
+        let response = await fetch(this.API_URL + "advert", {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            }
+        });
+
+        let adverts = await response.json();
+        return adverts;
+    }
+
+    async AddAdvert(advert) {
+        let response = await fetch(this.API_URL + "advert", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(advert),
+        });
+
+        let result = await response.json();
+        return result;
+    }
+
+    async RemoveAdvert(advert) {
+        let response = await fetch(this.API_URL + "projects/" + advert.id, {
+            method: "DELETE",
+            mode: "cors",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            }
+        });
+
+        return response;
     }
 }
 

@@ -1,13 +1,15 @@
-import { BrowserRouter, Routes, Route, useNavigate} from 'react-router-dom';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import { StrictMode, useState } from 'react';
+
 import './App.css';
 import Login from './components/Login';
 import Projects from './components/Projects';
 import Advertising from "./components/Advertising"
 import ChangePassword from './components/ChangePassword';
-import { useState } from 'react';
+import Redirect from './components/Redirect';
 
 import ApiController from './services/ApiController';
-import { useEffect } from 'react';
+
 
 function App() {
 
@@ -16,38 +18,44 @@ function App() {
         if (!result) {
             return new ApiController("https://localhost:7121/api/");
         } else {
-            console.log(result);
             return new ApiController(result.API_URL, result.AccessToken, result.isLogin);
         }
     });
 
-    async function Auth(login, password) {
+    async function Auth(login, password)
+    {
         await API.Login(login, password);
         sessionStorage.setItem("API", JSON.stringify(API));
 
-        let new_state = { ...API };
-
+        let new_state = new ApiController(API.API_URL, API.AccessToken, API.isLogin);
         setAPI(new_state);
     }
 
     if (API.isLogin) {
         return (
-            <BrowserRouter>
-                <div className="App">
-                    <Routes>
-                        <Route path='projects' element={<Projects API={API}/>} />
-                        <Route path='advertising' element={<Advertising API={API}/>} />
-                        <Route path="change_password" element={<ChangePassword API={API} />} />
-                    </Routes>
-                </div>
-            </BrowserRouter>
-
+            <StrictMode>
+                <BrowserRouter>
+                    <div className="App">
+                        <Routes>
+                            <Route path='projects' element={<Projects API={API} />} />
+                            <Route path='advertising' element={<Advertising API={API} />} />
+                            <Route path="change_password" element={<ChangePassword API={API} />} />
+                            <Route path='' element={<Redirect to="projects" />} />
+                        </Routes>
+                    </div>
+                </BrowserRouter>
+            </StrictMode>
         );
     } else {
+
+        console.log(API);
+        console.log(Auth);
         return (
+            <StrictMode>
             <div className="App">
                 <Login Auth={Auth} />
             </div>
+            </StrictMode>
         )
     }
 }

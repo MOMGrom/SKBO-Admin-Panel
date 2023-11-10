@@ -116,9 +116,10 @@ function Projects(props) {
 
     useEffect(() => {
         async function get() {
+            console.log(props)
+
             let projects = await props.API.GetProjects();
             setProjects(projects);
-            console.log("exec")
         }
         get();
     }, [])
