@@ -2,33 +2,50 @@ import { useState } from "react";
 import style from "./Advertising.module.css"
 import NavBar from "./NavBar";
 import {RiDeleteBin5Fill} from "react-icons/ri"
+import { useEffect } from "react";
 
-function Advertising() {
+function Advertising(props) {
 
-    const [loadImg, setLoadImg] = useState([])
+    const [advertList, setAdvertList] = useState([])
 
     function handleChangeFile(event) {
-        const newLoadImg = [...loadImg]
-        newLoadImg.push(URL.createObjectURL(event.target.files[0]))
-        setLoadImg(newLoadImg)
+        const reader = new FileReader();
+
+        reader.onload = async () => {
+            let base64string = reader.result;
+
+            let result = await props.API.AddAdvert(base64string);
+
+            if (result) {
+                const newAdvertList = [...advertList];
+                newAdvertList.push(result);
+                setAdvertList(newAdvertList);
+            } else {
+                console.log("Failed to add advert");
+            }
+        }
+        reader.readAsDataURL(event.target.files[0]);
     }
     function deleteImg(index) {
-        loadImg.splice(index, 1)
-        let new_state = [...loadImg]
-        setLoadImg(new_state)
+        advertList.splice(index, 1)
+        let new_state = [...advertList]
+        setAdvertList(new_state)
     }
-    function imgName(img) {
-        let res = [];
-        for (let char of img) {
-            if (char !== "\\") {
-                res.push(char)
-            } else {
-                res.length = 0;
-            }
-            img = res.join('')
+    function removeAdvert(index) {
+        props.API.RemoveAdvert(advertList[index].id);
+
+        advertList.splice(index, 1);
+        let new_state = [...advertList]
+        setAdvertList(new_state);
+    }
+
+    useEffect(() => {
+        async function get() {
+            let adverts = await props.API.GetAdverts();
+            setAdvertList(adverts);
         }
-        return img
-    }
+        get();
+    }, []);
 
     return(
         <div className={style.mainContainer}>
@@ -43,11 +60,11 @@ function Advertising() {
                         type="file"
                         onChange={handleChangeFile} />
                     </label>
-                {loadImg.map((img, index) => (
-                    <div className={style.imgsContainer}>
+                        {advertList.map((advert, index) => (
+                            <div className={style.imgsContainer} key={index}>
                         <div className={style.number}>{index + 1}</div>
-                        <img src={img} alt="img"/>
-                        <button onClick={() => deleteImg(index)} className={style.deleteBtn}><RiDeleteBin5Fill /></button>
+                                <img src={advert.image} alt="img" />
+                                <button onClick={() => removeAdvert(index)} className={style.deleteBtn}><RiDeleteBin5Fill /></button>
                     </div>
                 ))}
             </div>

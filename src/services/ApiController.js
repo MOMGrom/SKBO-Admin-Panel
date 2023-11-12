@@ -60,7 +60,8 @@ class ApiController {
                 image_3: image_3
             })
         });
-        response = await response.json;
+
+        response = await response.json();
         return response;
     }
 
@@ -92,7 +93,7 @@ class ApiController {
         return response;
     }
 
-    async GetAdvert() {
+    async GetAdverts() {
         let response = await fetch(this.API_URL + "advert", {
             method: "GET",
             mode: "cors",
@@ -106,7 +107,7 @@ class ApiController {
         return adverts;
     }
 
-    async AddAdvert(advert) {
+    async AddAdvert(image) {
         let response = await fetch(this.API_URL + "advert", {
             method: "POST",
             mode: "cors",
@@ -114,15 +115,17 @@ class ApiController {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(advert),
+            body: JSON.stringify({
+                image: image,
+            }),
         });
 
         let result = await response.json();
         return result;
     }
 
-    async RemoveAdvert(advert) {
-        let response = await fetch(this.API_URL + "projects/" + advert.id, {
+    async RemoveAdvert(advertId) {
+        let response = await fetch(this.API_URL + "advert/" + advertId, {
             method: "DELETE",
             mode: "cors",
             headers: {
