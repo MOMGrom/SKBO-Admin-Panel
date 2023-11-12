@@ -5,23 +5,18 @@ import {RiDeleteBin5Fill} from "react-icons/ri"
 
 function Advertising() {
 
-
     const [loadImg, setLoadImg] = useState([])
 
     function handleChangeFile(event) {
         const newLoadImg = [...loadImg]
         newLoadImg.push(URL.createObjectURL(event.target.files[0]))
         setLoadImg(newLoadImg)
-
     }
-
-function deleteImg(index) {
-loadImg.splice(index, 1)
-let new_state = [...loadImg]
-setLoadImg(new_state)
-
-
-}
+    function deleteImg(index) {
+        loadImg.splice(index, 1)
+        let new_state = [...loadImg]
+        setLoadImg(new_state)
+    }
     function imgName(img) {
         let res = [];
         for (let char of img) {
@@ -35,11 +30,11 @@ setLoadImg(new_state)
         return img
     }
 
-return(
-    <div className={style.mainContainer}>
-        <NavBar/>
-        <div className={style.main}>
-        <div className={style.leftContainer}>
+    return(
+        <div className={style.mainContainer}>
+            <NavBar/>
+            <div className={style.main}>
+            <div className={style.leftContainer}>
             <div className={style.inputContainer}>
                 <div className={style.imgInput}></div>
                     <label className={style.label}>
@@ -50,7 +45,7 @@ return(
                     </label>
                 {loadImg.map((img, index) => (
                     <div className={style.imgsContainer}>
-                        <div className={style.number}>{index +1 }</div>
+                        <div className={style.number}>{index + 1}</div>
                         <img src={img} alt="img"/>
                         <button onClick={() => deleteImg(index)} className={style.deleteBtn}><RiDeleteBin5Fill /></button>
                     </div>

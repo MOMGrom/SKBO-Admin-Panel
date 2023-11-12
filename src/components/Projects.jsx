@@ -93,6 +93,9 @@ function Projects(props) {
 
         setTitleObject(projects[index].title);
         setDescriptionObject(projects[index].description);
+        setBase64Image1(projects[index].image_1);
+        setBase64Image2(projects[index].image_2);
+        setBase64Image3(projects[index].image_3);
 
         setMode("edit");
         setEditIndex(index);
@@ -101,6 +104,8 @@ function Projects(props) {
     function approveChange() {
         projects[editIndex].title = titleObject;
         projects[editIndex].description = descriptionObject;
+
+        props.API.UpdateProject(projects[editIndex]);
 
         setTitleObject("");
         setDescriptionObject("")
@@ -144,7 +149,6 @@ function Projects(props) {
             <NavBar/>
             <div className={style.rightContainer}> 
                 {projects.map((p, index) => {
-                    console.log(p);
                     return ( 
                         <div className={style.objectList} key={index}>
                         <div className={style.textObjectСontainer}>
