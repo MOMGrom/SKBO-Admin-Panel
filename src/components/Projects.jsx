@@ -15,7 +15,7 @@ function Projects(props) {
 
     const [base64Image1, setBase64Image1] = useState("");
     const [base64Image2, setBase64Image2] = useState("");
-    const [base64Imahe3, setBase64Image3] = useState("");
+    const [base64Image3, setBase64Image3] = useState("");
 
     const [editIndex, setEditIndex] = useState(null);
     const [mode, setMode] = useState("create");
@@ -64,7 +64,7 @@ function Projects(props) {
 
         if ((titleObject !== "") && (descriptionObject !== "") && (img1 !== "") && (img2 !== "") && (img3 !== ""))
         {
-            props.API.AddProject(titleObject, descriptionObject, base64Image1, base64Image2, base64Imahe3);
+            props.API.AddProject(titleObject, descriptionObject, base64Image1, base64Image2, base64Image3);
 
             projects.push(
                 {
@@ -73,7 +73,7 @@ function Projects(props) {
                     "description": descriptionObject,
                     "image_1": base64Image1,
                     "image_2": base64Image2,
-                    "image_3": base64Imahe3
+                    "image_3": base64Image3
                 }
             );
 
