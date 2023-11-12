@@ -116,8 +116,6 @@ function Projects(props) {
 
     useEffect(() => {
         async function get() {
-            console.log(props)
-
             let projects = await props.API.GetProjects();
             setProjects(projects);
         }
@@ -135,10 +133,10 @@ function Projects(props) {
                             <div className={style.titleObjectText}>{p.title}</div>
                             <div className={style.descriptionObjectText}>{p.description}</div>
                         </div>
-                        <div className={style.imgObjectContainer}>
-                            <div className={style.img1Object}><img src={image1} alt="img1" width={200} height={100} /></div>
-                            <div className={style.img2Object}><img src={image1} alt="img2" width={200} height={100}/></div>
-                            <div className={style.img3Object}><img src={image1} alt="img3" width={200} height={100}/></div>
+                            <div className={style.imgObjectContainer}>
+                                <div className={style.img1Object}><img src={p.image_1} alt="img1" width={200} height={100} /></div>
+                                <div className={style.img2Object}><img src={p.image_2} alt="img2" width={200} height={100}/></div>
+                                <div className={style.img3Object}><img src={p.image_3} alt="img3" width={200} height={100}/></div>
                         </div>
                             <div className={style.btnContainer}>
                                 <button className={style.editBtn} onClick={() => { Edit_Click(index) }}><RiEdit2Fill /></button>
