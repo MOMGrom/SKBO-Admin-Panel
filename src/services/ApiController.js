@@ -44,7 +44,7 @@ class ApiController {
         return projects;
     }
 
-    async AddProject(title, description) {
+    async AddProject(title, description, image_1, image_2, image_3) {
         let response = await fetch(this.API_URL + "projects", {
             method: "POST",
             mode: "cors",
@@ -54,7 +54,10 @@ class ApiController {
             },
             body: JSON.stringify({
                 title: title,
-                description: description
+                description: description,
+                image_1: image_1,
+                image_2: image_2,
+                image_3: image_3
             })
         });
         response = await response.json;
@@ -75,8 +78,9 @@ class ApiController {
         return response;
     }
 
-    async RemoveProject(project) {
-        let response = await fetch(this.API_URL + "projects/" + project.id, {
+    async RemoveProject(projectId) {
+
+        let response = await fetch(this.API_URL + "projects/" + projectId, {
             method: "DELETE",
             mode: "cors",
             headers: {

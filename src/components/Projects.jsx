@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import style from "./Projects.module.css";
 import {RiEdit2Fill} from "react-icons/ri"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import NavBar from "./NavBar";
-import image1 from "../data/ska3.jpg"
 
 function Projects(props) {
     const [projects, setProjects] = useState([]);
@@ -14,8 +13,24 @@ function Projects(props) {
     const [img2, setImg2] = useState('')
     const [img3, setImg3] = useState('')
 
+    const [base64Image1, setBase64Image1] = useState("");
+    const [base64Image2, setBase64Image2] = useState("");
+    const [base64Imahe3, setBase64Image3] = useState("");
+
     const [editIndex, setEditIndex] = useState(null);
     const [mode, setMode] = useState("create");
+
+    function handleInputChange(event, setFunc) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            let base64String = reader.result;
+            setFunc(base64String);
+        };
+            
+        reader.readAsDataURL(file);
+    }
 
     function imgName(img) {
         let res = [];
@@ -29,7 +44,6 @@ function Projects(props) {
         }
         return img
     }
-
     function Buttons() {
 
         if (mode === "create") {
@@ -44,20 +58,22 @@ function Projects(props) {
                 </>
             )
         }
-            
     }
-
     function CreateProject(event) {
         event.preventDefault()
 
         if ((titleObject !== "") && (descriptionObject !== "") && (img1 !== "") && (img2 !== "") && (img3 !== ""))
         {
-            props.API.AddProject(titleObject, descriptionObject);
+            props.API.AddProject(titleObject, descriptionObject, base64Image1, base64Image2, base64Imahe3);
+
             projects.push(
                 {
                     "id": projects.length,
                     "title": titleObject,
-                    "description": descriptionObject
+                    "description": descriptionObject,
+                    "image_1": base64Image1,
+                    "image_2": base64Image2,
+                    "image_3": base64Imahe3
                 }
             );
 
@@ -109,6 +125,7 @@ function Projects(props) {
         setDescriptionObject("")
 
         props.API.RemoveProject(projects[index].id);
+
         projects.splice(index, 1);
         let new_state = [...projects]
         setProjects(new_state);
@@ -127,6 +144,7 @@ function Projects(props) {
             <NavBar/>
             <div className={style.rightContainer}> 
                 {projects.map((p, index) => {
+                    console.log(p);
                     return ( 
                         <div className={style.objectList} key={index}>
                         <div className={style.textObjectСontainer}>
@@ -147,7 +165,6 @@ function Projects(props) {
             </div>
             <div className={style.mainFormContainer}>
                 <form onSubmit={CreateProject}>
-            
                     <div className={style.inputTitleContainer}>
                         <label>Название объекта:</label>
                         <input 
@@ -169,9 +186,9 @@ function Projects(props) {
                             <label className={style.label}>
                             <span className={style.title}>Добавить фото</span>
                             <input 
-                                type="file"
-                                value={img1}
-                                onChange={(event) => {setImg1((event.target.value))}}/>
+                                    type="file"
+                                    value={img1}
+                                    onChange={(event) => { handleInputChange(event, setBase64Image1); setImg1(event.target.value) }} />
                             </label>
                             <div className={style.imgTitle}>{imgName(img1)}</div>
                         </div>
@@ -179,9 +196,9 @@ function Projects(props) {
                             <label className={style.label}>
                             <span className={style.title}>Добавить фото</span>
                             <input 
-                                type="file"
-                                value={img2}
-                                onChange={(event) => {setImg2((event.target.value))}}/>
+                                    type="file"
+                                    value={img2}
+                                    onChange={(event) => { handleInputChange(event, setBase64Image2); setImg2(event.target.value) }} />
                             </label>
                             <div className={style.imgTitle}>{imgName(img2)}</div>
                         </div>
@@ -189,9 +206,9 @@ function Projects(props) {
                             <label className={style.label}>
                             <span className={style.title}>Добавить фото</span>
                             <input 
-                                type="file"
-                                value={img3}
-                                onChange={(event) => {setImg3((event.target.value))}}/>
+                                    type="file"
+                                    value={img3}
+                                    onChange={(event) => { handleInputChange(event, setBase64Image3); setImg3(event.target.value) }}/>
                             </label>
                             <div className={style.imgTitle}>{imgName(img3)}</div>
                         </div>
