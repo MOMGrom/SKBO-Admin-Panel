@@ -13,6 +13,7 @@ function Projects(props) {
     const [img2, setImg2] = useState('')
     const [img3, setImg3] = useState('')
 
+
     const [base64Image1, setBase64Image1] = useState("");
     const [base64Image2, setBase64Image2] = useState("");
     const [base64Image3, setBase64Image3] = useState("");
@@ -45,7 +46,6 @@ function Projects(props) {
         return img
     }
     function Buttons() {
-
         if (mode === "create") {
             return (
                 <button className={style.addBt} type="submit">Сохранить</button>
@@ -82,6 +82,9 @@ function Projects(props) {
             setImg1("");
             setImg2("");
             setImg3("");
+            setBase64Image1("")
+            setBase64Image2("")
+            setBase64Image3("")
 
         } else
         {
@@ -102,14 +105,23 @@ function Projects(props) {
     }
 
     function approveChange() {
+
         projects[editIndex].title = titleObject;
         projects[editIndex].description = descriptionObject;
+        projects[editIndex].image_1 = base64Image1;
+        projects[editIndex].image_2 = base64Image2;
+        projects[editIndex].image_3 = base64Image3;
 
         props.API.UpdateProject(projects[editIndex]);
 
         setTitleObject("");
         setDescriptionObject("")
-
+        setImg1("");
+        setImg2("");
+        setImg3("");
+        setBase64Image1("")
+        setBase64Image2("")
+        setBase64Image3("")
         setMode("create");
         setEditIndex(null);
     }
@@ -117,6 +129,12 @@ function Projects(props) {
     function abortChange() {
         setTitleObject("");
         setDescriptionObject("")
+        setImg1("");
+        setImg2("");
+        setImg3("");
+        setBase64Image1("")
+        setBase64Image2("")
+        setBase64Image3("")
 
         setEditIndex(null);
         setMode("create");
@@ -188,32 +206,41 @@ function Projects(props) {
                     <div className={style.imgInputs}>
                         <div className={style.img1Input}>
                             <label className={style.label}>
-                            <span className={style.title}>Добавить фото</span>
+                            {base64Image1 ? (
+                            <span className={style.title}>Изменить фото</span>
+                            ) : <span className={style.title}>Добавить фото</span>}
                             <input 
                                     type="file"
                                     value={img1}
                                     onChange={(event) => { handleInputChange(event, setBase64Image1); setImg1(event.target.value) }} />
                             </label>
+                            {base64Image1 && <img className={style.imgView1} src={base64Image1} alt="" />}
                             <div className={style.imgTitle}>{imgName(img1)}</div>
                         </div>
                         <div className={style.img2Input}>
                             <label className={style.label}>
-                            <span className={style.title}>Добавить фото</span>
+                            {base64Image2 ? (
+                            <span className={style.title}>Изменить фото</span>
+                            ) : <span className={style.title}>Добавить фото</span>}
                             <input 
                                     type="file"
                                     value={img2}
                                     onChange={(event) => { handleInputChange(event, setBase64Image2); setImg2(event.target.value) }} />
                             </label>
+                            {base64Image2 && <img className={style.imgView1} src={base64Image2} alt="" />}
                             <div className={style.imgTitle}>{imgName(img2)}</div>
                         </div>
                         <div className={style.img3Input}>
                             <label className={style.label}>
-                            <span className={style.title}>Добавить фото</span>
+                            {base64Image3 ? (
+                            <span className={style.title}>Изменить фото</span>
+                            ) : <span className={style.title}>Добавить фото</span>}
                             <input 
                                     type="file"
                                     value={img3}
                                     onChange={(event) => { handleInputChange(event, setBase64Image3); setImg3(event.target.value) }}/>
                             </label>
+                            {base64Image3 && <img className={style.imgView1} src={base64Image3} alt="" />}
                             <div className={style.imgTitle}>{imgName(img3)}</div>
                         </div>
                     </div>

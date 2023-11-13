@@ -26,11 +26,7 @@ function Advertising(props) {
         }
         reader.readAsDataURL(event.target.files[0]);
     }
-    function deleteImg(index) {
-        advertList.splice(index, 1)
-        let new_state = [...advertList]
-        setAdvertList(new_state)
-    }
+
     function removeAdvert(index) {
         props.API.RemoveAdvert(advertList[index].id);
 
