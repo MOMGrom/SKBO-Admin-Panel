@@ -25,7 +25,7 @@ class ApiController {
         });
 
         if (response.ok) {
-            this.AccessToken = await response;
+            this.AccessToken = await response.text();
             this.isLogin = true;
         }
     }
@@ -51,6 +51,7 @@ class ApiController {
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.AccessToken,
             },
             body: JSON.stringify({
                 title: title,
@@ -72,6 +73,7 @@ class ApiController {
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.AccessToken,
             },
             body: JSON.stringify(project)
         });
@@ -87,6 +89,7 @@ class ApiController {
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.AccessToken,
             }
         });
 
@@ -113,7 +116,8 @@ class ApiController {
             mode: "cors",
             headers: {
                 "Accept": "application/json",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.AccessToken,
             },
             body: JSON.stringify({
                 image: image,
@@ -131,6 +135,7 @@ class ApiController {
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.AccessToken,
             }
         });
 
