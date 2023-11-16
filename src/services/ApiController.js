@@ -40,6 +40,10 @@ class ApiController {
             },
         });
 
+        if (!response.ok) {
+            return false;
+        }
+
         let projects = await response.json() 
         return projects;
     }
@@ -62,36 +66,53 @@ class ApiController {
             })
         });
 
+        if (!response.ok) {
+            return false;
+        }
+
         response = await response.json();
         return response;
     }
 
     async UpdateProject(project) {
-        let response = await fetch(this.API_URL + "projects/" + project.id, {
-            method: "PUT",
-            mode: "cors",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + this.AccessToken,
-            },
-            body: JSON.stringify(project)
-        });
+
+        let response;
+
+        try {
+            response = await fetch(this.API_URL + "projects/" + project.id, {
+                method: "PUT",
+                mode: "cors",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + this.AccessToken,
+                },
+                body: JSON.stringify(project)
+            });
+        } catch {
+            return false;
+        }
 
         return response;
     }
 
     async RemoveProject(projectId) {
+        let response;
 
-        let response = await fetch(this.API_URL + "projects/" + projectId, {
-            method: "DELETE",
-            mode: "cors",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + this.AccessToken,
-            }
-        });
+        try {
+            response = await fetch(this.API_URL + "projects/" + projectId, {
+                method: "DELETE",
+                mode: "cors",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + this.AccessToken,
+                }
+            });
+        } catch {
+            return false;
+        }
+       
 
         return response;
     }
@@ -105,6 +126,10 @@ class ApiController {
                 "Content-Type": "application/json",
             }
         });
+
+        if (!response.ok) {
+            return false;
+        }
 
         let adverts = await response.json();
         return adverts;
@@ -124,6 +149,10 @@ class ApiController {
             }),
         });
 
+        if (!response.ok) {
+            return false;
+        }
+
         let result = await response.json();
         return result;
     }
@@ -138,6 +167,10 @@ class ApiController {
                 "Authorization": "Bearer " + this.AccessToken,
             }
         });
+
+        if (!response.ok) {
+            return false;
+        }
 
         return response;
     }

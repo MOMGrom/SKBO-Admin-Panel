@@ -84,34 +84,47 @@ function Projects(props) {
             let result = await props.API.AddProject(titleObject, descriptionObject, base64Image1, base64Image2, base64Image3);
 
             if (result) {
-                
-        
-            Store.addNotification({
-                title: "Объект добавлен ",
-                message: "Объект " + titleObject + " успешно добавлен",
-                type: "success",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animate__animated", "animate__fadeIn"],
-                animationOut: ["animate__animated", "animate__fadeOut"],
-                dismiss: {
-                    duration: 5000,
-                    onScreen: true
-                }
-            });
 
-            projects.push(
-                {
-                    "id": result.id,
-                    "title": titleObject,
-                    "description": descriptionObject,
-                    "image_1": base64Image1,
-                    "image_2": base64Image2,
-                    "image_3": base64Image3
-                }
-            );
-        
-            }   
+                Store.addNotification({
+                    title: "Объект добавлен ",
+                    message: "Объект " + titleObject + " успешно добавлен",
+                    type: "success",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+                });
+
+                projects.push(
+                    {
+                        "id": result.id,
+                        "title": titleObject,
+                        "description": descriptionObject,
+                        "image_1": base64Image1,
+                        "image_2": base64Image2,
+                        "image_3": base64Image3
+                    }
+                );
+
+            } else {
+                Store.addNotification({
+                    title: "Ошибка",
+                    message: "Не удалось добавить новый объект",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+                });
+            }  
 
             setTitleObject("");
             setDescriptionObject("");
@@ -155,6 +168,20 @@ function Projects(props) {
                 title: "Изменеия сохранены",
                 message: "Объект " + titleObject + " успешно изменен",
                 type: "success",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                    duration: 5000,
+                    onScreen: true
+                }
+            });
+        } else {
+            Store.addNotification({
+                title: "Ошибка",
+                message: "Не удалось изменить " + titleObject,
+                type: "danger",
                 insert: "top",
                 container: "top-right",
                 animationIn: ["animate__animated", "animate__fadeIn"],
@@ -212,11 +239,26 @@ function Projects(props) {
                     onScreen: true
                 }
             });
-        }
 
-        projects.splice(index, 1);
-        let new_state = [...projects]
-        setProjects(new_state);
+            projects.splice(index, 1);
+            let new_state = [...projects]
+            setProjects(new_state);
+
+        } else {
+            Store.addNotification({
+                title: "Ошибка",
+                message: "Не удалось удалить объект " + projects[index].title,
+                type: "danger",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                    duration: 5000,
+                    onScreen: true
+                }
+            });
+        }
 
         setTitleObject("");
         setDescriptionObject("")
