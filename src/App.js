@@ -7,9 +7,10 @@ import Projects from './components/Projects';
 import Advertising from "./components/Advertising"
 import ChangePassword from './components/ChangePassword';
 import Redirect from './components/Redirect';
+import { ReactNotifications, Store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 
 import ApiController from './services/ApiController';
-
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
             <StrictMode>
                 <BrowserRouter>
                     <div className="App">
+                        <ReactNotifications/>
                         <Routes>
                             <Route path='projects' element={<Projects API={API} />} />
                             <Route path='advertising' element={<Advertising API={API} />} />

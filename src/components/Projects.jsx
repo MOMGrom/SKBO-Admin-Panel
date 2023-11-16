@@ -4,8 +4,14 @@ import {RiEdit2Fill} from "react-icons/ri"
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import NavBar from "./NavBar";
 
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+import { Store } from 'react-notifications-component';
+
 function Projects(props) {
     const [projects, setProjects] = useState([]);
+
+    const [objects, updateObjects] = useState(projects);
 
     const [titleObject, setTitleObject] = useState('')
     const [descriptionObject, setDescriptionObject] = useState('')
@@ -20,6 +26,16 @@ function Projects(props) {
 
     const [editIndex, setEditIndex] = useState(null);
     const [mode, setMode] = useState("create");
+
+
+    function handleOnDragEnd(result) {
+    
+        const items = Array.from(objects);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+        updateObjects(items);
+      }
+
 
     function handleInputChange(event, setFunc) {
         const file = event.target.files[0];
@@ -59,16 +75,33 @@ function Projects(props) {
             )
         }
     }
-    function CreateProject(event) {
+    async function CreateProject(event) {
         event.preventDefault()
 
         if ((titleObject !== "") && (descriptionObject !== "") && (img1 !== "") && (img2 !== "") && (img3 !== ""))
         {
-            props.API.AddProject(titleObject, descriptionObject, base64Image1, base64Image2, base64Image3);
+            let result = await props.API.AddProject(titleObject, descriptionObject, base64Image1, base64Image2, base64Image3);
+
+            if (result) {
+                
+        
+            Store.addNotification({
+                title: "Объект добавлен ",
+                message: "Объект " + titleObject + " успешно добавлен",
+                type: "success",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                    duration: 5000,
+                    onScreen: true
+                }
+            });
 
             projects.push(
                 {
-                    "id": projects.length,
+                    "id": result.id,
                     "title": titleObject,
                     "description": descriptionObject,
                     "image_1": base64Image1,
@@ -76,6 +109,8 @@ function Projects(props) {
                     "image_3": base64Image3
                 }
             );
+        
+            }   
 
             setTitleObject("");
             setDescriptionObject("");
@@ -104,7 +139,7 @@ function Projects(props) {
         setEditIndex(index);
     }
 
-    function approveChange() {
+    async function approveChange() {
 
         projects[editIndex].title = titleObject;
         projects[editIndex].description = descriptionObject;
@@ -112,7 +147,23 @@ function Projects(props) {
         projects[editIndex].image_2 = base64Image2;
         projects[editIndex].image_3 = base64Image3;
 
-        props.API.UpdateProject(projects[editIndex]);
+        let result = await props.API.UpdateProject(projects[editIndex]);
+
+        if (result) {
+            Store.addNotification({
+                title: "Изменеия сохранены",
+                message: "Объект " + titleObject + " успешно изменен",
+                type: "success",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                    duration: 5000,
+                    onScreen: true
+                }
+            });
+        }
 
         setTitleObject("");
         setDescriptionObject("")
@@ -140,18 +191,40 @@ function Projects(props) {
         setMode("create");
     }
 
-    function RemoveProject(index) {
+    async function RemoveProject(index) {
         setMode("create");
         setEditIndex(null);
 
-        setTitleObject("");
-        setDescriptionObject("")
-
-        props.API.RemoveProject(projects[index].id);
+        let result = await props.API.RemoveProject(projects[index].id);
+        
+        if (result) {
+            Store.addNotification({
+                title: "Объект удален",
+                message: "Объект " + projects[index].title + " успешно удален",
+                type: "success",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                    duration: 5000,
+                    onScreen: true
+                }
+            });
+        }
 
         projects.splice(index, 1);
         let new_state = [...projects]
         setProjects(new_state);
+
+        setTitleObject("");
+        setDescriptionObject("")
+        setImg1("");
+        setImg2("");
+        setImg3("");
+        setBase64Image1("")
+        setBase64Image2("")
+        setBase64Image3("")
     }
 
     useEffect(() => {
@@ -165,10 +238,15 @@ function Projects(props) {
     return (
         <div className={style.main}>
             <NavBar/>
-            <div className={style.rightContainer}> 
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable>
+                    {(provided) => (
+            <div className={style.rightContainer} {...provided.droppableProps} ref={provided.innerRef}> 
                 {projects.map((p, index) => {
                     return ( 
-                        <div className={style.objectList} key={index}>
+                        <Draggable key={p.id} draggableId={p.id} index={index} >
+                            {(provided) => (
+                        <div className={style.objectList} key={index} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                         <div className={style.textObjectСontainer}>
                             <div className={style.titleObjectText}>{p.title}</div>
                             <div className={style.descriptionObjectText}>{p.description}</div>
@@ -181,10 +259,16 @@ function Projects(props) {
                             <div className={style.btnContainer}>
                                 <button className={style.editBtn} onClick={() => { Edit_Click(index) }}><RiEdit2Fill /></button>
                                 <button className={style.deleteBtn} onClick={() => { RemoveProject(index) }}><RiDeleteBin5Fill /></button></div>
+                                {provided.placeholder}
                         </div>
+                        )}
+                        </Draggable>
                     )
                 })}
             </div>
+            )}
+                </Droppable>
+            </DragDropContext>
             <div className={style.mainFormContainer}>
                 <form onSubmit={CreateProject}>
                     <div className={style.inputTitleContainer}>
@@ -246,7 +330,7 @@ function Projects(props) {
                     </div>
                     <Buttons></Buttons>
                 </form>
-            </div>  
+            </div>
         </div>
     )
 }
