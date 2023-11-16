@@ -11,7 +11,18 @@ import { Store } from 'react-notifications-component';
 function Projects(props) {
     const [projects, setProjects] = useState([]);
 
-    const [objects, updateObjects] = useState(projects);
+
+
+    
+  function handleOnDragEnd(result) {
+    if (!result.destination) return;
+
+    const items = Array.from(projects);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setProjects(items);
+  }
 
     const [titleObject, setTitleObject] = useState('')
     const [descriptionObject, setDescriptionObject] = useState('')
@@ -26,16 +37,6 @@ function Projects(props) {
 
     const [editIndex, setEditIndex] = useState(null);
     const [mode, setMode] = useState("create");
-
-
-    function handleOnDragEnd(result) {
-    
-        const items = Array.from(objects);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
-        updateObjects(items);
-      }
-
 
     function handleInputChange(event, setFunc) {
         const file = event.target.files[0];
@@ -239,36 +240,37 @@ function Projects(props) {
         <div className={style.main}>
             <NavBar/>
             <DragDropContext onDragEnd={handleOnDragEnd}>
-                <Droppable>
+                <Droppable droppableId="rightContainer">
                     {(provided) => (
             <div className={style.rightContainer} {...provided.droppableProps} ref={provided.innerRef}> 
-                {projects.map((p, index) => {
-                    return ( 
-                        <Draggable key={p.id} draggableId={p.id} index={index} >
-                            {(provided) => (
-                        <div className={style.objectList} key={index} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                        <div className={style.textObjectСontainer}>
-                            <div className={style.titleObjectText}>{p.title}</div>
-                            <div className={style.descriptionObjectText}>{p.description}</div>
-                        </div>
-                            <div className={style.imgObjectContainer}>
-                                <div className={style.img1Object}><img src={p.image_1} alt="img1" width={200} height={100} /></div>
-                                <div className={style.img2Object}><img src={p.image_2} alt="img2" width={200} height={100}/></div>
-                                <div className={style.img3Object}><img src={p.image_3} alt="img3" width={200} height={100}/></div>
-                        </div>
-                            <div className={style.btnContainer}>
-                                <button className={style.editBtn} onClick={() => { Edit_Click(index) }}><RiEdit2Fill /></button>
-                                <button className={style.deleteBtn} onClick={() => { RemoveProject(index) }}><RiDeleteBin5Fill /></button></div>
-                                {provided.placeholder}
-                        </div>
-                        )}
-                        </Draggable>
-                    )
-                })}
-            </div>
-            )}
-                </Droppable>
-            </DragDropContext>
+                    {projects.map((p, index) => { 
+                            return ( 
+                                <Draggable key={index} draggableId={index.toString()} index={index}>
+                                    {(provided) => (
+                                        <div className={style.objectList} key={index} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                            <div className={style.textObjectСontainer}>
+                                                <div className={style.titleObjectText}>{p.title}</div>
+                                                <div className={style.descriptionObjectText}>{p.description}</div>
+                                            </div>
+                                            <div className={style.imgObjectContainer}>
+                                                <div className={style.img1Object}><img src={p.image_1} alt="img1" width={200} height={100} /></div>
+                                                <div className={style.img2Object}><img src={p.image_2} alt="img2" width={200} height={100}/></div>
+                                                <div className={style.img3Object}><img src={p.image_3} alt="img3" width={200} height={100}/></div>
+                                            </div>
+                                            <div className={style.btnContainer}>
+                                                <button className={style.editBtn} onClick={() => { Edit_Click(index) }}><RiEdit2Fill /></button>
+                                                <button className={style.deleteBtn} onClick={() => { RemoveProject(index) }}><RiDeleteBin5Fill /></button>
+                                            </div>
+                                            {provided.placeholder}
+                                            </div>
+                                                )}
+                                                </Draggable>
+                                                );
+                                                })}
+                                            </div>
+                                                )}
+                                        </Droppable>
+                                            </DragDropContext>
             <div className={style.mainFormContainer}>
                 <form onSubmit={CreateProject}>
                     <div className={style.inputTitleContainer}>
