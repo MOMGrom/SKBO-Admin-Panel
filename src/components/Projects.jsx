@@ -7,12 +7,12 @@ import NavBar from "./NavBar";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import { Store } from 'react-notifications-component';
+import Loading from "./Loading";
 
 function Projects(props) {
+
     const [projects, setProjects] = useState([]);
-
-
-
+    const [loading, setLoading] = useState(true)
     
   function handleOnDragEnd(result) {
     if (!result.destination) return;
@@ -65,7 +65,7 @@ function Projects(props) {
     function Buttons() {
         if (mode === "create") {
             return (
-                <button className={style.addBt} type="submit">Сохранить</button>
+                <button className={style.addBt} onClick={CreateProject}>Сохранить</button>
             )
         } else {
             return (
@@ -79,7 +79,7 @@ function Projects(props) {
     async function CreateProject(event) {
         event.preventDefault()
 
-        if ((titleObject !== "") && (descriptionObject !== "") && (img1 !== "") && (img2 !== "") && (img3 !== ""))
+        if ((titleObject !== "") && (descriptionObject !== "") && (img1 !== "") && (img2 !== "") && (img3 !== "") && (setBase64Image1 !== "") && (setBase64Image2 !== "") && (setBase64Image3 !== ""))
         {
             let result = await props.API.AddProject(titleObject, descriptionObject, base64Image1, base64Image2, base64Image3);
 
@@ -272,11 +272,24 @@ function Projects(props) {
 
     useEffect(() => {
         async function get() {
+            try {
             let projects = await props.API.GetProjects();
             setProjects(projects);
+            }
+            catch {
+                console.log("")
+            }
+            setLoading(false)
+            
         }
         get();
     }, [])
+
+    if (loading) {
+        return (
+            <Loading/>
+        )
+    }
 
     return (
         <div className={style.main}>
@@ -314,7 +327,7 @@ function Projects(props) {
                                         </Droppable>
                                             </DragDropContext>
             <div className={style.mainFormContainer}>
-                <form onSubmit={CreateProject}>
+                <form onSubmit={(e)=>{e.preventDefault()}}>
                     <div className={style.inputTitleContainer}>
                         <label>Название объекта:</label>
                         <input 

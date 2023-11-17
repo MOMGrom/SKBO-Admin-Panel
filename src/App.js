@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
-import { StrictMode, useState } from 'react';
+import { useState } from 'react';
 
 import './App.css';
 import Login from './components/Login';
@@ -34,7 +34,7 @@ function App() {
 
     if (API.isLogin) {
         return (
-            <StrictMode>
+            
                 <BrowserRouter>
                     <div className="App">
                         <ReactNotifications/>
@@ -46,18 +46,18 @@ function App() {
                         </Routes>
                     </div>
                 </BrowserRouter>
-            </StrictMode>
+            
         );
     } else {
 
         console.log(API);
         console.log(Auth);
         return (
-            <StrictMode>
+            
             <div className="App">
                 <Login Auth={Auth} />
             </div>
-            </StrictMode>
+            
         )
     }
 }

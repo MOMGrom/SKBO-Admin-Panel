@@ -1,5 +1,6 @@
 class ApiController {
 
+    login = "";
     API_URL = "";
     AccessToken = "";
     isLogin = false;
@@ -23,6 +24,32 @@ class ApiController {
                 password: password,
             })
         });
+
+        if (response.ok) {
+            this.AccessToken = await response.text();
+            this.isLogin = true;
+        }
+    }
+
+    async ChangePassword(password, newPassword) {
+        let response;
+
+        try {
+            response = await fetch(this.API_URL + "login/changePassword", {
+                method: "POST",
+                mode: "cors",
+                headears: {
+                    "Content-Type": "application/json",
+                    "Accept": "text/plain",
+                },
+                body: JSON.stringify({
+                    password: password,
+                    newPassword: newPassword,
+                })
+            });
+        } catch {
+            return false;
+        }
 
         if (response.ok) {
             this.AccessToken = await response.text();
@@ -112,7 +139,25 @@ class ApiController {
         } catch {
             return false;
         }
-       
+
+        return response;
+    }
+
+    async ChangeProjectOrder(current, projectId) {
+        let response;
+        try {
+            response = await fetch(this.API_URL + "projects/ord/" + projectId + "/" + current, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + this.AccessToken,
+                }
+            });
+        } catch {
+            return false;
+        }
 
         return response;
     }

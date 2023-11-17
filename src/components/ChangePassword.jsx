@@ -1,42 +1,78 @@
 import { useState } from "react";
 import style from "./ChangePassword.module.css"
 import NavBar from "./NavBar";
+import { Store } from "react-notifications-component";
 
-function ChangePassword() {
-
+function ChangePassword(props) {
 
     const [oldPassword, setOldPassword] = useState("")
     const [newPassword, setNewPassword] = useState("")
     const [confirmNewPassword, setConfirmNewPassword] = useState("")
 
 
-    function handleFormSubmit(event) {
-
+    async function handleFormSubmit(event) {
         event.preventDefault()
 
         if (
             (newPassword === confirmNewPassword) &&
             (newPassword !== "") &&
             (oldPassword !== "") &&
-            (newPassword.length >= 6)) {
+            (newPassword.length >= 6))
+        {
         
             let passwordData = {
             oldPassword,
             newPassword,
             confirmNewPassword,
         }
+
+        let result = await props.API.ChangePassword(oldPassword, newPassword);
+
+        if (!result) {
+            Store.addNotification(
+                {
+                    title: "Ошибка",
+                    message: "Не удалось изменить пароль",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+            })
+        } else {
+            Store.addNotification(
+                {
+                    title: "Пароль изменен",
+                    message: "",
+                    type: "succes",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                        onScreen: true
+                    }
+            })
+        }
+
         console.log(passwordData)
         setOldPassword("");
         setNewPassword("");
         setConfirmNewPassword("");
-    } else if (newPassword !== confirmNewPassword) {
-        alert("Пароли не совпадают")
-    } else if (newPassword === "") {
-        alert("Все поля должны быть заполнены!")
-    } else if (oldPassword === "") {
-        alert("Все поля должны быть заполнены!")
-    } else if (newPassword.length <= 6) {
-        alert("Пароль должен быть больше 6 символов")
+
+        } else if (newPassword !== confirmNewPassword) {
+            alert("Пароли не совпадают")
+        } else if (newPassword === "") {
+            alert("Все поля должны быть заполнены!")
+        } else if (oldPassword === "") {
+            alert("Все поля должны быть заполнены!")
+        } else if (newPassword.length <= 6) {
+            alert("Пароль должен быть больше 6 символов")
     }  
     }
     return( <>

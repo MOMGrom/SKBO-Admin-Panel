@@ -225,7 +225,8 @@ padding-top: 5%;
 .rightContainer {
     margin-top: 1%;
     overflow-y: scroll;
-    height: 93vh;
+    height: 73vh;
+    padding-bottom: 10%
 }
 
 
@@ -246,6 +247,9 @@ padding-top: 5%;
     margin-right: 5%;
     border-radius: 10px;
     max-height: 90%;
+    -webkit-box-shadow: 6px 6px 15px 7px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 6px 6px 15px 7px rgba(0, 0, 0, 0.2);
+    box-shadow: 6px 6px 15px 7px rgba(0, 0, 0, 0.2);
 }
 
 .imgObjectContainer {

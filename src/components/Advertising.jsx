@@ -3,10 +3,12 @@ import style from "./Advertising.module.css"
 import NavBar from "./NavBar";
 import {RiDeleteBin5Fill} from "react-icons/ri"
 import { useEffect } from "react";
+import Loading from "./Loading";
 
 function Advertising(props) {
 
     const [advertList, setAdvertList] = useState([])
+    const [loading, setLoading] = useState(true)
 
     function handleChangeFile(event) {
         const reader = new FileReader();
@@ -20,6 +22,7 @@ function Advertising(props) {
                 const newAdvertList = [...advertList];
                 newAdvertList.push(result);
                 setAdvertList(newAdvertList);
+            
             } else {
                 console.log("Failed to add advert");
             }
@@ -35,14 +38,29 @@ function Advertising(props) {
         setAdvertList(new_state);
     }
 
+    function _IFrame() {
+        return(
+            <div className={style.webCotainer}><iframe src="http://localhost:3001" width="100%" height="730"></iframe></div>
+        )
+    }
+
     useEffect(() => {
         async function get() {
-            let adverts = await props.API.GetAdverts();
-            setAdvertList(adverts);
+            try {let adverts = await props.API.GetAdverts();
+            setAdvertList(adverts);}
+            catch {
+                console.log("")
+            }
+            setLoading(false)
         }
+
         get();
     }, []);
-
+    if (loading) {
+        return (
+            <Loading/>
+        )
+    }
     return(
         <div className={style.mainContainer}>
             <NavBar/>
@@ -66,7 +84,7 @@ function Advertising(props) {
             </div>
             </div>
             <div className={style.rightContainer}>
-                <div className={style.webCotainer}><iframe src="https://skbo-group.ru" width="100%" height="730"></iframe></div>
+                <_IFrame/>
             </div>
         </div>
     </div>
