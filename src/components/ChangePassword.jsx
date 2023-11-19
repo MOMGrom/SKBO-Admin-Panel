@@ -17,50 +17,44 @@ function ChangePassword(props) {
             (newPassword === confirmNewPassword) &&
             (newPassword !== "") &&
             (oldPassword !== "") &&
-            (newPassword.length >= 6))
-        {
+            (newPassword.length >= 6)) {
+
+            let result = await props.API.ChangePassword(oldPassword, newPassword);
+
+            if (result) {
+                Store.addNotification(
+                    {
+                        title: "Пароль изменен",
+                        message: "",
+                        type: "success",
+                        insert: "top",
+                        container: "top-right",
+                        animationIn: ["animate__animated", "animate__fadeIn"],
+                        animationOut: ["animate__animated", "animate__fadeOut"],
+                        dismiss: {
+                            duration: 5000,
+                            onScreen: true
+                        }
+                    })
+            } else {
+                Store.addNotification(
+                    {
+                        title: "Ошибка",
+                        message: "Не удалось изменить пароль",
+                        type: "danger",
+                        insert: "top",
+                        container: "top-right",
+                        animationIn: ["animate__animated", "animate__fadeIn"],
+                        animationOut: ["animate__animated", "animate__fadeOut"],
+                        dismiss: {
+                            duration: 5000,
+                            onScreen: true
+                        }
+                    }
+                )
+            }
         
-            let passwordData = {
-            oldPassword,
-            newPassword,
-            confirmNewPassword,
-        }
 
-        let result = await props.API.ChangePassword(oldPassword, newPassword);
-
-        if (!result) {
-            Store.addNotification(
-                {
-                    title: "Ошибка",
-                    message: "Не удалось изменить пароль",
-                    type: "danger",
-                    insert: "top",
-                    container: "top-right",
-                    animationIn: ["animate__animated", "animate__fadeIn"],
-                    animationOut: ["animate__animated", "animate__fadeOut"],
-                    dismiss: {
-                        duration: 5000,
-                        onScreen: true
-                    }
-            })
-        } else {
-            Store.addNotification(
-                {
-                    title: "Пароль изменен",
-                    message: "",
-                    type: "succes",
-                    insert: "top",
-                    container: "top-right",
-                    animationIn: ["animate__animated", "animate__fadeIn"],
-                    animationOut: ["animate__animated", "animate__fadeOut"],
-                    dismiss: {
-                        duration: 5000,
-                        onScreen: true
-                    }
-            })
-        }
-
-        console.log(passwordData)
         setOldPassword("");
         setNewPassword("");
         setConfirmNewPassword("");
@@ -73,8 +67,9 @@ function ChangePassword(props) {
             alert("Все поля должны быть заполнены!")
         } else if (newPassword.length <= 6) {
             alert("Пароль должен быть больше 6 символов")
-    }  
+        }  
     }
+        
     return( <>
     <div className={style.NavBar}><NavBar/></div>
         <div className={style.mainContainer}>

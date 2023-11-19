@@ -5,10 +5,11 @@ class ApiController {
     AccessToken = "";
     isLogin = false;
 
-    constructor(url, token, isLogin) {
+    constructor(url, token, isLogin, login) {
         this.API_URL = url;
         this.AccessToken = token;
         this.isLogin = isLogin;
+        this.login = login;
     }
 
     async Login(login, password) {
@@ -27,6 +28,7 @@ class ApiController {
 
         if (response.ok) {
             this.AccessToken = await response.text();
+            this.login = login;
             this.isLogin = true;
         }
     }
@@ -38,11 +40,13 @@ class ApiController {
             response = await fetch(this.API_URL + "login/changePassword", {
                 method: "POST",
                 mode: "cors",
-                headears: {
+                headers: {
                     "Content-Type": "application/json",
                     "Accept": "text/plain",
+                    "Authorization": "Bearer " + this.AccessToken,
                 },
                 body: JSON.stringify({
+                    login: this.login,
                     password: password,
                     newPassword: newPassword,
                 })
@@ -52,8 +56,10 @@ class ApiController {
         }
 
         if (response.ok) {
-            this.AccessToken = await response.text();
+            
             this.isLogin = true;
+
+            return await response.text();
         }
     }
 
@@ -75,7 +81,7 @@ class ApiController {
         return projects;
     }
 
-    async AddProject(title, description, image_1, image_2, image_3) {
+    async AddProject(title, description, order, image_1, image_2, image_3) {
         let response = await fetch(this.API_URL + "projects", {
             method: "POST",
             mode: "cors",
@@ -87,6 +93,7 @@ class ApiController {
             body: JSON.stringify({
                 title: title,
                 description: description,
+                order: order,
                 image_1: image_1,
                 image_2: image_2,
                 image_3: image_3
@@ -143,11 +150,15 @@ class ApiController {
         return response;
     }
 
-    async ChangeProjectOrder(current, projectId) {
+    async ReorderProjects(currentOrder, newOrder, projectId) {
+
+        console.log(currentOrder);
+        console.log(newOrder);
+
         let response;
         try {
-            response = await fetch(this.API_URL + "projects/ord/" + projectId + "/" + current, {
-                method: "POST",
+            response = await fetch(this.API_URL + "projects/" + projectId + "/" + currentOrder + "/" +  newOrder, {
+                method: "PATCH",
                 mode: "cors",
                 headers: {
                     "Accept": "application/json",

@@ -19,7 +19,7 @@ function App() {
         if (!result) {
             return new ApiController("https://localhost:7121/api/");
         } else {
-            return new ApiController(result.API_URL, result.AccessToken, result.isLogin);
+            return new ApiController(result.API_URL, result.AccessToken, result.isLogin, result.login);
         }
     });
 
@@ -28,7 +28,7 @@ function App() {
         await API.Login(login, password);
         sessionStorage.setItem("API", JSON.stringify(API));
 
-        let new_state = new ApiController(API.API_URL, API.AccessToken, API.isLogin);
+        let new_state = new ApiController(API.API_URL, API.AccessToken, API.isLogin, API.login);
         setAPI(new_state);
     }
 
