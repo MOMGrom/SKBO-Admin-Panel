@@ -17,7 +17,7 @@ function App() {
     const [API, setAPI] = useState(() => {
         let result = JSON.parse(sessionStorage.getItem("API"));
         if (!result) {
-            return new ApiController("https://localhost:7121/api/");
+            return new ApiController("https://skbo-group.ru/api/");
         } else {
             return new ApiController(result.API_URL, result.AccessToken, result.isLogin, result.login);
         }
@@ -42,7 +42,7 @@ function App() {
                             <Route path='projects' element={<Projects API={API} />} />
                             <Route path='advertising' element={<Advertising API={API} />} />
                             <Route path="change_password" element={<ChangePassword API={API} />} />
-                            <Route path='' element={<Redirect to="projects" />} />
+                            <Route path='*' element={<Redirect to="projects" />} />
                         </Routes>
                     </div>
                 </BrowserRouter>
