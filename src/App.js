@@ -27,6 +27,7 @@ function App() {
     async function Auth(login, password)
     {
         let result = await API.Login(login, password);
+
         sessionStorage.setItem("API", JSON.stringify(API));
 
         let new_state = new ApiController(API.API_URL, API.AccessToken, API.isLogin, API.login);

@@ -50,11 +50,9 @@ function ChangePassword(props) {
                             duration: 5000,
                             onScreen: true
                         }
-                    }
-                )
+                    })
             }
-        
-
+       
         setOldPassword("");
         setNewPassword("");
         setConfirmNewPassword("");

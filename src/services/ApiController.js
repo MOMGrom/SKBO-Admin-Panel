@@ -26,7 +26,7 @@ class ApiController {
             })
         });
 
-        if (response.ok) {
+        if (response.status === 200) {
             this.AccessToken = await response.text();
             this.login = login;
             this.isLogin = true;
