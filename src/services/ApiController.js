@@ -30,6 +30,10 @@ class ApiController {
             this.AccessToken = await response.text();
             this.login = login;
             this.isLogin = true;
+
+            return true
+        } else {
+            return false;
         }
     }
 

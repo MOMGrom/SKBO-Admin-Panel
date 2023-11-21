@@ -184,7 +184,7 @@ function Projects(props) {
 
         if (result) {
             Store.addNotification({
-                title: "Изменеия сохранены",
+                title: "Изменения сохранены",
                 message: "Объект " + titleObject + " успешно изменен",
                 type: "success",
                 insert: "top",

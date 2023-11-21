@@ -7,6 +7,7 @@ import Projects from './components/Projects';
 import Advertising from "./components/Advertising"
 import ChangePassword from './components/ChangePassword';
 import Redirect from './components/Redirect';
+
 import { ReactNotifications, Store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 
@@ -25,11 +26,29 @@ function App() {
 
     async function Auth(login, password)
     {
-        await API.Login(login, password);
+        let result = await API.Login(login, password);
         sessionStorage.setItem("API", JSON.stringify(API));
 
         let new_state = new ApiController(API.API_URL, API.AccessToken, API.isLogin, API.login);
         setAPI(new_state);
+
+        if (!result) {
+
+            Store.addNotification({
+                title: "Error",
+                message: "Incorrect password or login",
+                type: "danger",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                    duration: 5000,
+                    onScreen: true
+                },
+                contentEncoder: "UTF-8"
+            });
+        }
     }
 
     if (API.isLogin) {
@@ -50,10 +69,10 @@ function App() {
         );
     } else
     {
-
         return (
             
             <div className="App">
+                <ReactNotifications/>
                 <Login Auth={Auth} />
             </div>
             
