@@ -114,3 +114,12 @@
       transform: rotate(360deg);
     }
   }
+
+  @media screen and (max-width: 1000px) {
+    .loading {
+      left: 100px;
+    }
+    .loading:not(:required):after {
+      font-size: 40px;
+    }
+  }

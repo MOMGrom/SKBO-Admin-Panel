@@ -13,7 +13,6 @@
     padding: 10px;
     padding-bottom: 15px;
     border-radius: 10px;
-
     top: 0;
 }
 
@@ -35,4 +34,14 @@
 .objectLink:hover, .advertisingLink:hover, .changePassword:hover {
     color: #ffcc00;
     cursor: pointer;
+}
+
+@media screen and (max-width: 1000px) {
+    .navBarContainer {
+    width: 98%;
+    }
+    .changePassword, .objectLink, .advertisingLink {
+        font-size: 1.8rem;
+        padding: 20px
+    }
 }

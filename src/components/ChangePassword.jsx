@@ -59,8 +59,6 @@ function ChangePassword(props) {
                     }
             })
         }
-
-        console.log(passwordData)
         setOldPassword("");
         setNewPassword("");
         setConfirmNewPassword("");

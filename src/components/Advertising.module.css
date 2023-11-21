@@ -115,3 +115,30 @@ iframe {
     border-radius: 10px;
     border: 2px solid #ffcc00;
 }
+
+
+@media screen and (max-width: 1600px) {
+    .main {
+        display: block;
+        max-height: 920px;
+    }
+    .leftContainer {
+        margin: auto;
+        margin-top: 20%;
+        width: 100%;
+    }
+    .rightContainer {
+        display: none;
+    }
+
+    .imgsContainer img {
+        width: 70%;
+    }
+    .deleteBtn {
+        font-size: 2.5rem;
+    }
+    .inputContainer {
+        margin-top: 0;
+    }
+}
+

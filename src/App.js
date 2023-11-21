@@ -25,7 +25,10 @@ function App() {
 
     async function Auth(login, password)
     {
-        await API.Login(login, password);
+
+
+
+        let response = await API.Login(login, password);
         sessionStorage.setItem("API", JSON.stringify(API));
 
         let new_state = new ApiController(API.API_URL, API.AccessToken, API.isLogin);
@@ -49,9 +52,6 @@ function App() {
             
         );
     } else {
-
-        console.log(API);
-        console.log(Auth);
         return (
             
             <div className="App">

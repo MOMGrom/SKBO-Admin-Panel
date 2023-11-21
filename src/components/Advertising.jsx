@@ -24,7 +24,7 @@ function Advertising(props) {
                 setAdvertList(newAdvertList);
             
             } else {
-                console.log("Failed to add advert");
+                
             }
         }
         reader.readAsDataURL(event.target.files[0]);
@@ -49,7 +49,7 @@ function Advertising(props) {
             try {let adverts = await props.API.GetAdverts();
             setAdvertList(adverts);}
             catch {
-                console.log("")
+                console.log()
             }
             setLoading(false)
         }
