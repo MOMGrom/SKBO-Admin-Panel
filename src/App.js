@@ -7,6 +7,7 @@ import Projects from './components/Projects';
 import Advertising from "./components/Advertising"
 import ChangePassword from './components/ChangePassword';
 import Redirect from './components/Redirect';
+
 import { ReactNotifications, Store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 
@@ -17,22 +18,38 @@ function App() {
     const [API, setAPI] = useState(() => {
         let result = JSON.parse(sessionStorage.getItem("API"));
         if (!result) {
-            return new ApiController("https://localhost:7121/api/");
+            return new ApiController("https://skbo-group.ru/api/");
         } else {
-            return new ApiController(result.API_URL, result.AccessToken, result.isLogin);
+            return new ApiController(result.API_URL, result.AccessToken, result.isLogin, result.login);
         }
     });
 
     async function Auth(login, password)
     {
+        let result = await API.Login(login, password);
 
-
-
-        let response = await API.Login(login, password);
         sessionStorage.setItem("API", JSON.stringify(API));
 
-        let new_state = new ApiController(API.API_URL, API.AccessToken, API.isLogin);
+        let new_state = new ApiController(API.API_URL, API.AccessToken, API.isLogin, API.login);
         setAPI(new_state);
+
+        if (!result) {
+
+            Store.addNotification({
+                title: "Error",
+                message: "Incorrect password or login",
+                type: "danger",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                    duration: 5000,
+                    onScreen: true
+                },
+                contentEncoder: "UTF-8"
+            });
+        }
     }
 
     if (API.isLogin) {
@@ -45,16 +62,18 @@ function App() {
                             <Route path='projects' element={<Projects API={API} />} />
                             <Route path='advertising' element={<Advertising API={API} />} />
                             <Route path="change_password" element={<ChangePassword API={API} />} />
-                            <Route path='' element={<Redirect to="projects" />} />
+                            <Route path='*' element={<Redirect to="projects" />} />
                         </Routes>
                     </div>
                 </BrowserRouter>
             
         );
-    } else {
+    } else
+    {
         return (
             
             <div className="App">
+                <ReactNotifications/>
                 <Login Auth={Auth} />
             </div>
             

@@ -14,12 +14,30 @@ function Projects(props) {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true)
     
-  function handleOnDragEnd(result) {
+  async function handleOnDragEnd(result) {
     if (!result.destination) return;
 
     const items = Array.from(projects);
     const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
+      items.splice(result.destination.index, 0, reorderedItem);
+
+      try {
+          await props.API.ReorderProjects(result.source.index, result.destination.index, projects[result.source.index].id);
+      } catch {
+          Store.addNotification({
+              title: "Ошибка",
+              message: "",
+              type: "danger",
+              insert: "top",
+              container: "top-right",
+              animationIn: ["animate__animated", "animate__fadeIn"],
+              animationOut: ["animate__animated", "animate__fadeOut"],
+              dismiss: {
+                  duration: 5000,
+                  onScreen: true
+              }
+          })
+      }
 
     setProjects(items);
   }
@@ -81,7 +99,7 @@ function Projects(props) {
 
         if ((titleObject !== "") && (descriptionObject !== "") && (img1 !== "") && (img2 !== "") && (img3 !== "") && (setBase64Image1 !== "") && (setBase64Image2 !== "") && (setBase64Image3 !== ""))
         {
-            let result = await props.API.AddProject(titleObject, descriptionObject, base64Image1, base64Image2, base64Image3);
+            let result = await props.API.AddProject(titleObject, descriptionObject, projects.length, base64Image1, base64Image2, base64Image3);
 
             if (result) {
 
@@ -104,6 +122,7 @@ function Projects(props) {
                         "id": result.id,
                         "title": titleObject,
                         "description": descriptionObject,
+                        "order": projects.length,
                         "image_1": base64Image1,
                         "image_2": base64Image2,
                         "image_3": base64Image3
@@ -165,7 +184,7 @@ function Projects(props) {
 
         if (result) {
             Store.addNotification({
-                title: "Изменеия сохранены",
+                title: "Изменения сохранены",
                 message: "Объект " + titleObject + " успешно изменен",
                 type: "success",
                 insert: "top",

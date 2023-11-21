@@ -40,7 +40,7 @@ function Advertising(props) {
 
     function _IFrame() {
         return(
-            <div className={style.webCotainer}><iframe src="http://localhost:3001" width="100%" height="730"></iframe></div>
+            <div className={style.webCotainer}><iframe src="https://skbo-group.ru" width="100%" height="730"></iframe></div>
         )
     }
 
