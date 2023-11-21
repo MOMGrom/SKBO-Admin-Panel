@@ -48,10 +48,9 @@ function App() {
                 </BrowserRouter>
             
         );
-    } else {
+    } else
+    {
 
-        console.log(API);
-        console.log(Auth);
         return (
             
             <div className="App">
